@@ -1,10 +1,10 @@
-# R Shiny app for visualizing FastQ Screen data.
+ R Shiny app for visualizing FastQ Screen data.
 
-## app.R - Main application. Recommeded to run in browser.
-## fqscreen_function_MASTER.R - Functions utilized in app.
+- app.R - Main application. Recommeded to run in browser.
+- fqscreen_function_MASTER.R - Functions utilized in app.
 
 ## Input Data  
-This app requires the text output from [FastQ Screen](https://www.bioinformatics.babraham.ac.uk/projects/fastq_screen/).
+This app requires the text output from <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastq_screen/" target="_blank">FastQ Screen</a>.
 
 To include multiple files, please run the app in browser. 
 
