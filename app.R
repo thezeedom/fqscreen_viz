@@ -1,8 +1,3 @@
-# CONTROL WIDGETS
-# References:
-# https://github.com/aagarw30/R-Shinyapp-Tutorial/tree/master/fileinput
-# https://www.youtube.com/watch?v=HPZSunrSo5M
-
 #sink("log_console.txt")
 
 .packages = c("shiny",
@@ -15,7 +10,6 @@
 
 sapply(.packages, require, character.only = TRUE)
 source("fqscreen_functions_MASTER.R")
-#source("fqscreen_functions_SCRATCH.R")
 options(scipen = 50)
 
 #
@@ -55,7 +49,7 @@ ui = fluidPage(
 # ---------- SHINY SERVER ---------- #
 server = function(input, output) {
   
-  # Get data from fileInput, ID = "files"
+  # Get data for percent mapping
   data = reactive({
     all_files = input$files
     if(is.null(all_files)){return()}
@@ -65,6 +59,7 @@ server = function(input, output) {
     return(df)
   })
   
+  # Get data for number mapping
   num_data = reactive({
     all_files = input$files
     if(is.null(all_files)){return()}
@@ -74,20 +69,19 @@ server = function(input, output) {
     return(df)
   })
   
-  # Reactive output
-  # Summary of uploaded data
+  # Display summary of uploaded data
   output$files_df = renderTable({
     if(is.null(data())){return()}
     input$files
   })
   
-  # DF data for plotting
+  # Display DF of percent mapping data
   output$data_summary = DT::renderDataTable({
     if(is.null(data())){return()}
     df = data()
   })
   
-  # Download DF
+  # Option to download percent mapping DF
   output$data_dl = downloadHandler(
     filename = function(){"fqscreen_viz_data.csv"}, 
     content = function(fname){
@@ -95,15 +89,19 @@ server = function(input, output) {
     }
   )
   
+  # Unique samples from uploaded files
   samples = reactive({
     unique(data()$sample_ord)
   })
   
+  # Whether samples are single-end
   is_single = reactive({
     all(data()$read=="Single-End")
   })
   
   # Select sample to plot
+  # Display selected plot
+  # Display selected number mapping
   observeEvent(input$which_sample, {
     if(is.null(data())){return()}
     cat("------ SAMPLE SELECTED ------", sep = "\n")
